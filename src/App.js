@@ -1,36 +1,52 @@
+const Pizza = (props) => {
+  return React.createElement("div", {}, [
+    React.createElement("h2", {}, props.name),
+    React.createElement("p", {}, props.description),
+  ]);
+};
+
 const App = () => {
-  /**
-   * this returns a react element object. example is this:
-   * {
-   *    type: "div",
-   *    props: {},
-   *    ...children: [
-   *                    { type: "h1", props: {}, children: "Padre Gino's" },
-   *                    { type: "p", props: {}, children: "some description" }
-   *                 ]
-   * }
-   */
   return React.createElement(
-    // DOM element to create
     "div",
-    // props
     {},
-    // ...children to render
     React.createElement("h1", {}, "Padre Gino's"),
-    React.createElement("p", {}, "some description"),
+
+    // passing of props to the Pizza component
+    // what happened: the object passed became arguments passed of the function
+    React.createElement(Pizza, {
+      name: "Pepperoni Pizza",
+      description: "some description",
+    }),
+    React.createElement(Pizza, {
+      name: "Pizza 2",
+      description: "some description 2",
+    }),
+    React.createElement(Pizza, {
+      name: "Pizza 3",
+      description: "some description 3",
+    }),
   );
 };
 
 const container = document.querySelector(".root");
 
-// mark the 'container' element as the DOM to render react elements
 const root = ReactDOM.createRoot(container);
-// this builds the element tree (im talking about the render()) after the creation and return of the createElement() function
 root.render(React.createElement(App));
+
 /**
  * this returns like this:
  * <div>
- *  <h1>Padre Gino's</h1>
- *  <p>some description</p>
+ *  <div>
+ *    <h2>Pepperoni Pizza</h2>
+ *    <p>Pepperoni Pizza</p>
+ *  </div>
+ *  <div>
+ *    <h2>Pizza 2</h2>
+ *    <p>some description 2</p>
+ *  </div>
+ *  <div>
+ *    <h2>Pizza 3</h2>
+ *    <p>some description 3</p>
+ *  </div>
  * </div>
  */
