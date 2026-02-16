@@ -1,3 +1,8 @@
+// import the whole React library
+import React from "react";
+// named import for getting only the createRoot function
+import { createRoot } from "react-dom/client";
+
 const Pizza = (props) => {
   return React.createElement("div", {}, [
     React.createElement("h2", {}, props.name),
@@ -30,7 +35,7 @@ const App = () => {
 
 const container = document.querySelector(".root");
 
-const root = ReactDOM.createRoot(container);
+const root = createRoot(container);
 root.render(React.createElement(App));
 
 /**
