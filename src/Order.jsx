@@ -1,9 +1,11 @@
+import { useState } from "react";
 import Pizza from "./Pizza";
 
-// this pattern of creating functions is better in terms of debugging because this is a named export and when you do debugging, it mention this function in the stack trace, making it easier to find the functions.
 export default function Order() {
-  const pizzaType = "Pepperoni";
-  const pizzaSize = "M";
+  // [0] current state value, [1] function to update the state, () argument passed is the default value
+  const [pizzaType, setPizzaType] = useState("pepperoni");
+  const [pizzaSize, setPizzaSize] = useState("M");
+
   return (
     <div className="order">
       <h2>Create Order</h2>
@@ -11,7 +13,11 @@ export default function Order() {
         <div>
           <div>
             <label htmlFor="pizza-type">Pizza Type</label>
-            <select name="pizza-type" id="" value={pizzaType}>
+            <select
+              onChange={(e) => setPizzaType(e.target.value)}
+              name="pizza-type"
+              value={pizzaType}
+            >
               <option value="pepperoni">The pepperoni pizza</option>
               <option value="hawaiian">The hawaiian pizza</option>
               <option value="big_meat">The big meat pizza</option>
@@ -27,6 +33,7 @@ export default function Order() {
                   name="pizza-size"
                   value="S"
                   id="pizza-s"
+                  onChange={(e) => setPizzaSize(e.target.value)}
                 />
                 <label htmlFor="pizza-s">Small</label>
               </span>
@@ -37,8 +44,9 @@ export default function Order() {
                   name="pizza-size"
                   value="M"
                   id="pizza-m"
+                  onChange={(e) => setPizzaSize(e.target.value)}
                 />
-                <label htmlFor="pizza-s">Medium</label>
+                <label htmlFor="pizza-m">Medium</label>
               </span>
               <span>
                 <input
@@ -46,9 +54,10 @@ export default function Order() {
                   checked={pizzaSize === "L"}
                   name="pizza-size"
                   value="L"
-                  id="pizza-L"
+                  id="pizza-l"
+                  onChange={(e) => setPizzaSize(e.target.value)}
                 />
-                <label htmlFor="pizza-s">Large</label>
+                <label htmlFor="pizza-l">Large</label>
               </span>
             </div>
           </div>
@@ -66,6 +75,3 @@ export default function Order() {
     </div>
   );
 }
-
-// this is the same at the top but this one will not show up in the stack trace, it would mark it as anonymous function because we used an arrow function for this pattern.
-// export default Order;
