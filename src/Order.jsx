@@ -10,7 +10,7 @@ export default function Order() {
   const [pizzaTypes, setPizzaTypes] = useState([]);
   const [pizzaType, setPizzaType] = useState("pepperoni");
   const [pizzaSize, setPizzaSize] = useState("M");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   let price, selectedPizza;
 
@@ -96,9 +96,9 @@ export default function Order() {
         ) : (
           <div className="order-pizza">
             <Pizza
-              name="Pepperoni"
-              description="another pizza"
-              image="/public/pizzas/pepperoni.webp"
+              name={selectedPizza.name}
+              description={selectedPizza.description}
+              image={selectedPizza.image}
             />
             <p>{price}</p>
           </div>
