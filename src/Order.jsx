@@ -14,6 +14,23 @@ export default function Order() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  async function checkout() {
+    setLoading(true);
+
+    // waits for this to finish before proceeding with the code, that's the await keyword function
+    await fetch("/api/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // enclose the cart in object braces since cart is in array format
+      body: JSON.stringify({ cart }),
+    });
+
+    setCart([]);
+    setLoading(false);
+  }
+
   let price, selectedPizza;
 
   if (!loading) {
@@ -118,7 +135,11 @@ export default function Order() {
           )}
         </form>
       </div>
-      {loading ? <h2>Loading ...</h2> : <Cart cart={cart} />}
+      {loading ? (
+        <h2>Loading ...</h2>
+      ) : (
+        <Cart checkout={checkout} cart={cart} />
+      )}
     </div>
   );
 }

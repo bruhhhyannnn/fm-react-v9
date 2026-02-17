@@ -24,6 +24,8 @@ export default function Cart({ cart, checkout }) {
         ))}
       </ul>
       <p>Total: {intl.format(total)}</p>
+
+      {/* use the checkout function from the parent */}
       <button onClick={checkout}>Checkout</button>
     </div>
   );
