@@ -16,6 +16,9 @@ export default function Order() {
 
   if (!loading) {
     selectedPizza = pizzaTypes.find((pizza) => pizzaType === pizza.id);
+    price = intl.format(
+      selectedPizza.sizes ? selectedPizza.sizes[pizzaSize] : "",
+    );
   }
 
   async function fetchPizzaTypes() {
@@ -25,10 +28,8 @@ export default function Order() {
     setLoading(false);
   }
 
-  // hook for running our fetch function once, empty array means run once every time this component mounts
   useEffect(() => {
     fetchPizzaTypes();
-    console.log(pizzaTypes);
   }, []);
 
   return (
@@ -43,11 +44,6 @@ export default function Order() {
               name="pizza-type"
               value={pizzaType}
             >
-              {/* here we used the map function instead of the foreach function. 
-              because with map, this will return a new array, foreach wont. 
-              also this returned array will give something like this: [<option>Pizza 1</option>, 
-              <option>Pizza 2</option>, ...] allowing us to render all the values
-              in the pizzaTypes and creating a react element inside it */}
               {pizzaTypes.map((pizza) => (
                 <option key={pizza.id} value={pizza.id}>
                   {pizza.name}
@@ -95,14 +91,18 @@ export default function Order() {
           </div>
           <button type="submit">Add to cart</button>
         </div>
-        <div className="order-pizza">
-          <Pizza
-            name="Pepperoni"
-            description="another pizza"
-            image="/public/pizzas/pepperoni.webp"
-          />
-          <p>$14.45</p>
-        </div>
+        {loading ? (
+          <h1>Loading</h1>
+        ) : (
+          <div className="order-pizza">
+            <Pizza
+              name="Pepperoni"
+              description="another pizza"
+              image="/public/pizzas/pepperoni.webp"
+            />
+            <p>{price}</p>
+          </div>
+        )}
       </form>
     </div>
   );
