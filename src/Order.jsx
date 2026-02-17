@@ -1,10 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pizza from "./Pizza";
 
+const intl = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
+
 export default function Order() {
-  // [0] current state value, [1] function to update the state, () argument passed is the default value
+  const [pizzaTypes, setPizzaTypes] = useState([]);
   const [pizzaType, setPizzaType] = useState("pepperoni");
   const [pizzaSize, setPizzaSize] = useState("M");
+  const [loading, setLoading] = useState(false);
+
+  let price, selectedPizza;
+
+  if (!loading) {
+    selectedPizza = pizzaTypes.find((pizza) => pizzaType === pizza.id);
+  }
+
+  async function fetchPizzaTypes() {
+    const pizzaRes = await fetch("/api/pizzas");
+    const pizzaJson = await pizzaRes.json();
+    setPizzaTypes(pizzaJson);
+    setLoading(false);
+  }
+
+  // hook for running our fetch function once, empty array means run once every time this component mounts
+  useEffect(() => {
+    fetchPizzaTypes();
+    console.log(pizzaTypes);
+  }, []);
 
   return (
     <div className="order">
@@ -18,9 +43,16 @@ export default function Order() {
               name="pizza-type"
               value={pizzaType}
             >
-              <option value="pepperoni">The pepperoni pizza</option>
-              <option value="hawaiian">The hawaiian pizza</option>
-              <option value="big_meat">The big meat pizza</option>
+              {/* here we used the map function instead of the foreach function. 
+              because with map, this will return a new array, foreach wont. 
+              also this returned array will give something like this: [<option>Pizza 1</option>, 
+              <option>Pizza 2</option>, ...] allowing us to render all the values
+              in the pizzaTypes and creating a react element inside it */}
+              {pizzaTypes.map((pizza) => (
+                <option key={pizza.id} value={pizza.id}>
+                  {pizza.name}
+                </option>
+              ))}
             </select>
           </div>
           <div>
