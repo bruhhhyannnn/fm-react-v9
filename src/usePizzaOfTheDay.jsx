@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useDebugValue } from "react";
 
-// custom hook for fetching the pizza of the day
 export const usePizzaOfTheDay = () => {
   const [pizzaOfTheDay, setPizzaOfTheDay] = useState(null);
+
+  // for React DevTools for quickly identifying and debugging the state of the hook
+  useDebugValue(pizzaOfTheDay ? `${pizzaOfTheDay.id}` : "loading...");
 
   useEffect(() => {
     async function fetchPizzaOfTheDay() {
